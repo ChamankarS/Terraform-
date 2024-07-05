@@ -1,46 +1,31 @@
+### Create an instance with Parameters...!
 AWSTemplateFormatVersion: "2010-09-09"
 Description: A sample template
+Parameters:
+  InstanceType:
+    Description: "Ec2 Instance Type"
+    Type: String
+    Default: "t2.micro"
+  ImageId:
+    Description: "AMI ID"
+    Type: String
+    Default: "ami-04a81a99f5ec58529"
+  KeyName:
+    Type: String
+    Default: "jenkin-key"
+  SecurityGroups:
+    Type: String
+    Default: "jenkin-sg"
 
-###  Create an instance without parameters
-# Resources:
-#   MyEC2Instance:
-#     Type: AWS::EC2::Instance
-#     Properties:
-#        ImageId: "ami-06c68f701d8090592"
-#        InstanceType: "t2.micro"
-#        KeyName: "id_rsa"
-#        SecurityGroups: 
-#         - "jenkin-sg"
-#        Tags: 
-#         - Key: Name 
-#           Value: CFT Instance 
-
-### Create an instance with Parameters...!
-# Parameters:
-#   InstanceType:
-#     Description: "Ec2 Instance Type"
-#     Type: String
-#     Default: "t2.micro"
-#   ImageId:
-#     Description: "AMI ID"
-#     Type: String
-#     Default: "ami-04a81a99f5ec58529"
-#   KeyName:
-#     Type: String
-#     Default: "jenkin-key"
-#   SecurityGroups:
-#     Type: String
-#     Default: "jenkin-sg"
-
-# Resources:
-#   MyEC2Instance:
-#     Type: AWS::EC2::Instance
-#     Properties:
-#        ImageId: !Ref ImageId
-#        InstanceType: !Ref InstanceType
-#        KeyName:  !Ref KeyName
-#        SecurityGroups: 
-#         - !Ref SecurityGroups 
-#        Tags: 
-#         - Key: Name 
-#           Value: CFT Instance 
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+       ImageId: !Ref 'ImageId'
+       InstanceType: !Ref 'InstanceType'
+       KeyName:  !Ref 'KeyName'
+       SecurityGroups: 
+        - !Ref 'SecurityGroups' 
+       Tags: 
+        - Key: Name 
+          Value: CFT Instance 
