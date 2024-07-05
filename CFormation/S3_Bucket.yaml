@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A sample S3 template
+
+Parameters:
+  S3BucketName:
+    Description: "Create an s3 bucket with parameter"
+    Type: String
+    MinLength: 4
+    MaxLength: 8
+    AllowedPattern: "[A-Za-z]+"
+
+Resources:
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+       BucketName: !Ref S3BucketName
+
+Outputs:
+  BucketName: 
+    Value: !Ref S3Bucket
