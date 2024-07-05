@@ -1,7 +1,7 @@
+# Create an instance without parameters
+
 AWSTemplateFormatVersion: "2010-09-09"
 Description: A sample template
-
-###  Create an instance without parameters
 Resources:
   MyEC2Instance:
     Type: AWS::EC2::Instance
