@@ -3,16 +3,23 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: A sample template
 Parameters:
   InstanceType:
-    Description: "Ec2 Instance Type"
+    Description: "Ec2 Instance Type- Allow only t2.micro,t2.nano,m1.small"
     Type: String
     Default: "t2.micro"
+    AllowedValues:
+      - "t2.micro"
+      - "t2.nano"
+      - "m1.small"
+    
   ImageId:
     Description: "AMI ID"
     Type: String
     Default: "ami-04a81a99f5ec58529"
+
   KeyName:
     Type: String
     Default: "jenkin-key"
+
   SecurityGroups:
     Type: String
     Default: "jenkin-sg"
@@ -21,11 +28,16 @@ Resources:
   MyEC2Instance:
     Type: AWS::EC2::Instance
     Properties:
-       ImageId: !Ref 'ImageId'
-       InstanceType: !Ref 'InstanceType'
-       KeyName:  !Ref 'KeyName'
-       SecurityGroups: 
-        - !Ref 'SecurityGroups' 
-       Tags: 
+      ImageId: !Ref ImageId
+      #Ref: ImageId
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      SecurityGroups: 
+        - !Ref SecurityGroups 
+      Tags: 
         - Key: Name 
           Value: CFT Instance 
+
+Outputs:
+  InstanceType:
+    Value: !Ref MyEC2Instance
