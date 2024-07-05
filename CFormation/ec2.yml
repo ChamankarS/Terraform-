@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A sample template
+
+###  Create an instance without parameters
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+       ImageId: "ami-06c68f701d8090592"
+       InstanceType: "t2.micro"
+       KeyName: "id_rsa"
+       SecurityGroups: 
+        - "jenkin-sg"
+       Tags: 
+        - Key: Name 
+          Value: CFT Instance 
