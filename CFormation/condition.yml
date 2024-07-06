@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "AWS CloudFormation Template for creating a EC2_Instance with condition"
+
+Parameters:
+  Environment:
+    Type: String
+    AllowedValues:
+      - dev
+      - test
+      - prod
+  ImageId:
+    Type: String
+    Default: ami-04a81a99f5ec58529
+Mappings:
+  EnvMap:
+    dev:
+      InstanceType: "t2.micro"
+      Name: "development"
+    test:
+      InstanceType: "t2.nano"
+      Name: "testing"
+    prod:
+      InstanceType: "t2.medium"
+      Name: "production"
+
+Conditions:
+  CreateProdResourses: !Equals [ !Ref Environment, prod ]
+
+Resources: 
+  EC2Instance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      InstanceType: !FindInMap [EnvMap, !Ref Environment, InstanceType]
+      ImageId: !Ref ImageId
+      Tags:
+        - Key: Name
+          Value: !FindInMap [EnvMap, !Ref Environment, Name]
+  
+  NewVolume: 
+    Type: "AWS::EC2::Volume"
+    Condition: CreateProdResourses
+    Properties:
+      Size: 20
+      AvailabilityZone: !GetAtt EC2Instance.AvailabilityZone
+
+  MountPoint:
+    Type: "AWS::EC2::VolumeAttachment"
+    Condition: CreateProdResourses
+    Properties:
+      InstanceId: 
+        !Ref EC2Instance
+      VolumeId: 
+        !Ref NewVolume
+      Device: /dev/sdh
+  
+  
+
+
+Outputs:
+  InstanceId: 
+    Value: !Ref EC2Instance
