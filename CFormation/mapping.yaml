@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "AWS CloudFormation Template for creating a EC2_Instance"
+
+Parameters:
+  Environment:
+    Type: String
+    AllowedValues:
+      - dev
+      - test
+      - prod
+  ImageId:
+    Type: String
+    Default: ami-04a81a99f5ec58529
+Mappings:
+  EnvMap:
+    dev:
+      InstanceType: "t2.micro"
+      Name: "development"
+    test:
+      InstanceType: "t2.nano"
+      Name: "testing"
+    prod:
+      InstanceType: "t2.medium"
+      Name: "production"
+
+Resources: 
+  EC2Instance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      InstanceType: !FindInMap [EnvMap, !Ref Environment, InstanceType]
+      ImageId: !Ref ImageId
+      Tags:
+        - Key: Name
+          Value: !FindInMap [EnvMap, !Ref Environment, Name]
