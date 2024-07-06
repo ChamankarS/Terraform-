@@ -32,3 +32,6 @@ Resources:
       Tags:
         - Key: Name
           Value: !FindInMap [EnvMap, !Ref Environment, Name]
+Outputs:
+  InstanceId: 
+    Value: !Ref EC2Instance
